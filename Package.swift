@@ -21,5 +21,7 @@ let package = Package(
         .target(
             name: "CodeExplorerExerciseGenerator",
             dependencies: []),
+        .testTarget(name: "CodeExplorerExerciseGeneratorTests",
+                    dependencies: ["CodeExplorerExerciseGenerator"])
     ]
 )
