@@ -42,7 +42,6 @@ struct Primes {
                 guard lowerBound < upperBound else {
                     throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
                 }
-                let maybePrime = Int.random(in: lowerBound ... upperBound)
 
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()     
                 let instructions = """
@@ -73,6 +72,8 @@ struct Primes {
                 response.append(lines: idealSolution, to: .idealSolution)
 
                 for _ in 1 ... repeatCount {
+                    let maybePrime = Int.random(in: lowerBound ... upperBound)
+
                     // Expected output
                     response.append(line: String(maybePrime), to: .expectedOutput)                                                                    
                     response.append(line: String(isPrime(maybePrime)), to: .expectedOutput)
