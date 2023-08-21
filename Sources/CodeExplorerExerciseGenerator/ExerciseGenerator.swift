@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-class ExerciseGenerator {
+public class ExerciseGenerator {
     enum ExerciseGeneratorError: Error {
         case invalidExerciseType
         case invalidBoundsSpecified
@@ -20,11 +20,11 @@ class ExerciseGenerator {
 
     let exercise: Exercise  
     
-    init(exercise: Exercise) {
+    public init(exercise: Exercise) {
         self.exercise = exercise 
     }
 
-    func generate() throws {
+    public func generate() throws {
         let response: DynamicResponse
         
         switch exercise {

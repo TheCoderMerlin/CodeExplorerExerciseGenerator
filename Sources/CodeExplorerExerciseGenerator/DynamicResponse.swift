@@ -13,30 +13,30 @@
 
 import Foundation
 
-class DynamicResponse {
+public class DynamicResponse {
     var targetFilesDictionary = [String: String]()
 
-    init() {
+    public init() {
         for targetPathname in TargetPathname.allCases {
             targetFilesDictionary[targetPathname.rawValue] = String()
         }
     }
 
-    func append(line: String, to targetPathname: TargetPathname) {
+    public func append(line: String, to targetPathname: TargetPathname) {
         targetFilesDictionary[targetPathname.rawValue]!.append(line + "\n")
     }
 
-    func append(lines: String, to targetPathname: TargetPathname) {
+    public func append(lines: String, to targetPathname: TargetPathname) {
         targetFilesDictionary[targetPathname.rawValue]!.append(lines)
     }
 
-    func response() throws -> Response {
+    private func response() throws -> Response {
         let nonEmptyTargetFilesDictionary = targetFilesDictionary.filter { !$0.value.isEmpty }
         let nonEmptyTargetFiles = nonEmptyTargetFilesDictionary.map { TargetFile(path: $0.key, contents: $0.value) }
         return Response(targetFiles: nonEmptyTargetFiles)
     }
 
-    func responseString() throws -> String {
+    public func responseString() throws -> String {
         let jsonEncoder = JSONEncoder()
         let string = try String(data: jsonEncoder.encode(response()), encoding: .utf8)!
         return string 
