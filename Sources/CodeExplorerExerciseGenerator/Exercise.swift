@@ -12,6 +12,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 public enum Exercise {
+    // Primes
     case isPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case nextPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case previousPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
     
 }

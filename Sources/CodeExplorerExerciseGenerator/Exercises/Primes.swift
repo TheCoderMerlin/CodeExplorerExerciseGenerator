@@ -14,19 +14,19 @@
 
 struct Primes {
     // Helper functions
-    static func isPrime(_ n: Int) -> Bool {
-        if n <= 1 {
+    static func isPrime(maybePrime: Int) -> Bool {
+        if maybePrime <= 1 {
             return false
         }
-        if n <= 3 {
+        if maybePrime <= 3 {
             return true
         }
-        if n % 2 == 0 || n % 3 == 0 {
+        if maybePrime % 2 == 0 || maybePrime % 3 == 0 {
             return false
         }
         var i = 5
-        while i * i <= n {
-            if n % i == 0 || n % (i + 2) == 0 {
+        while i * i <= maybePrime {
+            if maybePrime % i == 0 || maybePrime % (i + 2) == 0 {
                 return false
             }
             i += 6
@@ -34,7 +34,26 @@ struct Primes {
         return true
     }
 
-    struct SinglePrime: ExerciseGeneratable {
+    static func nextPrime(startingNumber: Int) -> Int {
+        var maybePrime = startingNumber
+        repeat {
+            maybePrime += 1
+        } while !isPrime(maybePrime: maybePrime)
+        return maybePrime    
+    }
+
+    static func previousPrime(startingNumber: Int) -> Int? {
+        guard startingNumber > 2 else {
+        return nil
+    }
+        var maybePrime = startingNumber
+        repeat {
+            maybePrime -= 1
+        } while !isPrime(maybePrime: maybePrime)
+        return maybePrime    
+    }
+    
+    struct IsPrime: ExerciseGeneratable {
 
         // Generators
         static func generate(exercise: Exercise) throws -> DynamicResponse {
@@ -76,7 +95,7 @@ struct Primes {
 
                     // Expected output
                     response.append(line: String(maybePrime), to: .expectedOutput)                                                                    
-                    response.append(line: String(isPrime(maybePrime)), to: .expectedOutput)
+                    response.append(line: String(isPrime(maybePrime: maybePrime)), to: .expectedOutput)
 
                     // Append 
                     response.append(line: "print(\(maybePrime))", to: .append)
@@ -89,5 +108,147 @@ struct Primes {
             }
         }
     }
+
+    struct NextPrime: ExerciseGeneratable {
+
+        // Generators
+        static func generate(exercise: Exercise) throws -> DynamicResponse {
+            if case let .nextPrime(repeatCount, lowerBound, upperBound) = exercise {
+                guard lowerBound < upperBound else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
+
+                let response = CodeExplorerExerciseGenerator.DynamicResponse()     
+                let instructions = """
+                  Create a function named 'nextPrime' which accepts a single parameter,
+                  named 'startingNumber'. The function must return the next prime 
+                  after 'startingNumber'.
+
+                  You may assume that the function 'isPrime(maybePrime: Int) -> Bool'
+                  is available.
+                  """
+                response.append(lines: instructions, to: .instructions)
+                
+                let prependCode = """
+                  func isPrime(maybePrime: Int) -> Bool {     
+                      if maybePrime < 2 {                     
+                          return false                        
+                      }                                       
+                                             
+                      var evenDivisionCount = 0               
+                                             
+                      for divisor in 1 ... maybePrime {       
+                          if maybePrime % divisor == 0 {      
+                              evenDivisionCount += 1          
+                          }                                   
+                      }                                       
+                                             
+                      return evenDivisionCount == 2           
+                  }                                           
+                  """
+                response.append(line: prependCode, to: .prepend)
+
+                let idealSolution = """
+                  func nextPrime(startingNumber: Int) -> Int {
+                      var maybePrime = startingNumber
+                      repeat {
+                          maybePrime += 1
+                      } while !isPrime(maybePrime: maybePrime)
+                      return maybePrime    
+                  }
+                  """
+                response.append(line: idealSolution, to: .idealSolution)
+                
+                for _ in 1 ... repeatCount {
+                    let startingNumber = Int.random(in: lowerBound ... upperBound)
+
+                    // Expected output
+                    response.append(line: String(startingNumber), to: .expectedOutput)                                                                    
+                    response.append(line: String(nextPrime(startingNumber: startingNumber)), to: .expectedOutput)
+
+                    // Append 
+                    response.append(line: "print(\(startingNumber))", to: .append)
+                    response.append(line: "print(nextPrime(startingNumber: \(startingNumber)))", to: .append)
+                }
+                
+                return response
+            } else {
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidExerciseType
+            }
+        }
+    }
+    
+    struct PreviousPrime: ExerciseGeneratable {
+
+        // Generators
+        static func generate(exercise: Exercise) throws -> DynamicResponse {
+            if case let .previousPrime(repeatCount, lowerBound, upperBound) = exercise {
+                guard lowerBound < upperBound else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
+
+                let response = CodeExplorerExerciseGenerator.DynamicResponse()     
+                let instructions = """
+                  Create a function named 'previousPrime' which accepts a single parameter,
+                  named 'startingNumber'. The function must return the previous prime 
+                  before 'startingNumber'. If no such prime number exists, return nil.
+
+                  You may assume that the function 'isPrime(maybePrime: Int) -> Bool'
+                  is available.
+                  """
+                response.append(lines: instructions, to: .instructions)
+                
+                let prependCode = """
+                  func isPrime(maybePrime: Int) -> Bool {     
+                      if maybePrime < 2 {                     
+                          return false                        
+                      }                                       
+                                             
+                      var evenDivisionCount = 0               
+                                             
+                      for divisor in 1 ... maybePrime {       
+                          if maybePrime % divisor == 0 {      
+                              evenDivisionCount += 1          
+                          }                                   
+                      }                                       
+                                             
+                      return evenDivisionCount == 2           
+                  }                                           
+                  """
+                response.append(line: prependCode, to: .prepend)
+
+                let idealSolution = """
+                  func previousPrime(startingNumber: Int) -> Int? {
+                      guard startingNumber > 2 else {
+                          return nil
+                      }
+                      var maybePrime = startingNumber
+                      repeat {
+                          maybePrime -= 1
+                      } while !isPrime(maybePrime: maybePrime)
+                      return maybePrime    
+                  }
+                  """
+                response.append(line: idealSolution, to: .idealSolution)
+                
+                for _ in 1 ... repeatCount {
+                    let startingNumber = Int.random(in: lowerBound ... upperBound)
+
+                    // Expected output
+                    response.append(line: String(startingNumber), to: .expectedOutput)                                                                    
+                    response.append(line: String(nextPrime(startingNumber: startingNumber)), to: .expectedOutput)
+
+                    // Append 
+                    response.append(line: "print(\(startingNumber))", to: .append)
+                    response.append(line: "print(nextPrime(startingNumber: \(startingNumber)))", to: .append)
+                }
+                
+                return response
+            } else {
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidExerciseType
+            }
+        }
+    }
+    
 }
 

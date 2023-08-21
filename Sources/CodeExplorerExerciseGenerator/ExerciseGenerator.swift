@@ -29,7 +29,12 @@ public class ExerciseGenerator {
         
         switch exercise {
         case .isPrime(_, _, _):
-            response = try Primes.SinglePrime.generate(exercise: exercise)
+            response = try Primes.IsPrime.generate(exercise: exercise)
+        case .nextPrime(_, _, _):
+            response = try Primes.NextPrime.generate(exercise: exercise)
+        case .previousPrime(_, _, _):
+            response = try Primes.PreviousPrime.generate(exercise: exercise)
+
         }
 
         print(try response.responseString())
