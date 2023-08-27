@@ -236,11 +236,11 @@ struct Primes {
 
                     // Expected output
                     response.append(line: String(startingNumber), to: .expectedOutput)                                                                    
-                    response.append(line: String(nextPrime(startingNumber: startingNumber)), to: .expectedOutput)
+                    response.append(line: String(previousPrime(startingNumber: startingNumber)), to: .expectedOutput)
 
                     // Append 
                     response.append(line: "print(\(startingNumber))", to: .append)
-                    response.append(line: "print(previousPrime(startingNumber: \(startingNumber)))", to: .append)
+                    response.append(line: "print(previousPrime(startingNumber: \(startingNumber)) != nil ? String(previousPrime(startingNumber: \(startingNumber))!) : \"nil\"  )", to: .append)
                 }
                 
                 return response
