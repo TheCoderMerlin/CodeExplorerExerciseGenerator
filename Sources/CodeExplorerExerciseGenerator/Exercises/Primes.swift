@@ -240,7 +240,7 @@ struct Primes {
 
                     // Append 
                     response.append(line: "print(\(startingNumber))", to: .append)
-                    response.append(line: "print(nextPrime(startingNumber: \(startingNumber)))", to: .append)
+                    response.append(line: "print(previousPrime(startingNumber: \(startingNumber)))", to: .append)
                 }
                 
                 return response
