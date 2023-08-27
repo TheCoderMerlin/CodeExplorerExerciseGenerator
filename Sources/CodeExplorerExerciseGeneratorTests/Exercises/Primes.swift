@@ -101,6 +101,10 @@ class PrimesTest: XCTestCase {
         XCTAssertNil(Primes.previousPrime(startingNumber: 1))
         XCTAssertNil(Primes.previousPrime(startingNumber: 0))
         XCTAssertNil(Primes.previousPrime(startingNumber: -1000))
+        
+        XCTAssertEqual(String(Primes.previousPrime(startingNumber: 2)), "nil")
+        XCTAssertEqual(String(Primes.previousPrime(startingNumber: 3)), "2")
+
     }
     
 }

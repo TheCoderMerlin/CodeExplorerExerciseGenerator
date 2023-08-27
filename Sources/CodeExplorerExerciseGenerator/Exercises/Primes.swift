@@ -44,8 +44,9 @@ struct Primes {
 
     static func previousPrime(startingNumber: Int) -> Int? {
         guard startingNumber > 2 else {
-        return nil
-    }
+            return nil
+        }
+        
         var maybePrime = startingNumber
         repeat {
             maybePrime -= 1
