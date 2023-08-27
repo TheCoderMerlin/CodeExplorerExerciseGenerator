@@ -64,10 +64,11 @@ struct Primes {
 
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()     
                 let instructions = """
-                  Create a function named 'isPrime' which accepts a single parameter,
-                  named 'maybePrime'. The function must return true if and only if
-                  'maybePrime' is prime.
-                  Assume that any number less than two is not prime.
+                  <ol>
+                  <li>Create a function named <code>isPrime</code> which accepts a single parameter, named <code>maybePrime</code>.</li>
+                  <li>The function must return true if and only if <code>maybePrime</code> is prime.</li>
+                  <li>Assume that any number less than two is not prime.</li>
+                  </ol>
                   """
                 response.append(lines: instructions, to: .instructions)
                 
@@ -120,12 +121,11 @@ struct Primes {
 
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()     
                 let instructions = """
-                  Create a function named 'nextPrime' which accepts a single parameter,
-                  named 'startingNumber'. The function must return the next prime 
-                  after 'startingNumber'.
-
-                  You may assume that the function 'isPrime(maybePrime: Int) -> Bool'
-                  is available.
+                  <ol>
+                  <li>Create a function named <code>nextPrime</code> which accepts a single parameter, named <code>startingNumber</code>.</li>
+                  <li>The function must return the next prime after <code>startingNumber</code>.</li>
+                  <li>You may assume that the function <code>isPrime(maybePrime: Int) -> Bool</code> is available.</li>
+                  </ol>
                   """
                 response.append(lines: instructions, to: .instructions)
                 
@@ -189,12 +189,12 @@ struct Primes {
 
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()     
                 let instructions = """
-                  Create a function named 'previousPrime' which accepts a single parameter,
-                  named 'startingNumber'. The function must return the previous prime 
-                  before 'startingNumber'. If no such prime number exists, return nil.
-
-                  You may assume that the function 'isPrime(maybePrime: Int) -> Bool'
-                  is available.
+                  <ol>
+                  <li>Create a function named <code>previousPrime</code> which accepts a single parameter, named <code>startingNumber</code>.</li>
+                  <li>The function must return the previous prime before 'startingNumber'.</li>
+                  <li>If no such prime number exists, return nil.</li>
+                  <li>You may assume that the function <code>isPrime(maybePrime: Int) -> Bool</code> is available.</li>
+                  </ol>
                   """
                 response.append(lines: instructions, to: .instructions)
                 
