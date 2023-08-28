@@ -28,12 +28,19 @@ public class ExerciseGenerator {
         let response: DynamicResponse
         
         switch exercise {
+        // Primes
         case .isPrime(_, _, _):
             response = try Primes.IsPrime.generate(exercise: exercise)
         case .nextPrime(_, _, _):
             response = try Primes.NextPrime.generate(exercise: exercise)
         case .previousPrime(_, _, _):
             response = try Primes.PreviousPrime.generate(exercise: exercise)
+
+        // Sorts
+        case .swap(_, _, _):
+            response = try Sorts.Swap.generate(exercise: exercise)
+        case .bubbleSort(_, _, _):
+            response = try Sorts.BubbleSort.generate(exercise: exercise)
 
         }
 

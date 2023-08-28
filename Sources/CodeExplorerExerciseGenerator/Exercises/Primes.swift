@@ -56,7 +56,6 @@ struct Primes {
     
     struct IsPrime: ExerciseGeneratable {
 
-        // Generators
         static func generate(exercise: Exercise) throws -> DynamicResponse {
             if case let .isPrime(repeatCount, lowerBound, upperBound) = exercise {
                 guard lowerBound < upperBound else {
@@ -113,7 +112,6 @@ struct Primes {
 
     struct NextPrime: ExerciseGeneratable {
 
-        // Generators
         static func generate(exercise: Exercise) throws -> DynamicResponse {
             if case let .nextPrime(repeatCount, lowerBound, upperBound) = exercise {
                 guard lowerBound < upperBound else {
@@ -130,7 +128,7 @@ struct Primes {
                   """
                 response.append(lines: instructions, to: .instructions)
                 
-                let prependCode = """
+                let requiredCode = """
                   func isPrime(maybePrime: Int) -> Bool {     
                       if maybePrime < 2 {                     
                           return false                        
@@ -147,7 +145,7 @@ struct Primes {
                       return evenDivisionCount == 2           
                   }                                           
                   """
-                response.append(line: prependCode, to: .prepend)
+                response.append(line: requiredCode, to: .append)
 
                 let idealSolution = """
                   func nextPrime(startingNumber: Int) -> Int {
@@ -181,7 +179,6 @@ struct Primes {
     
     struct PreviousPrime: ExerciseGeneratable {
 
-        // Generators
         static func generate(exercise: Exercise) throws -> DynamicResponse {
             if case let .previousPrime(repeatCount, lowerBound, upperBound) = exercise {
                 guard lowerBound < upperBound else {
@@ -199,7 +196,7 @@ struct Primes {
                   """
                 response.append(lines: instructions, to: .instructions)
                 
-                let prependCode = """
+                let requiredCode = """
                   func isPrime(maybePrime: Int) -> Bool {     
                       if maybePrime < 2 {                     
                           return false                        
@@ -216,7 +213,7 @@ struct Primes {
                       return evenDivisionCount == 2           
                   }                                           
                   """
-                response.append(line: prependCode, to: .prepend)
+                response.append(line: requiredCode, to: .append)
 
                 let idealSolution = """
                   func previousPrime(startingNumber: Int) -> Int? {

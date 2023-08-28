@@ -11,14 +11,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-public enum Exercise {
-    // Primes
-    case isPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
-    case nextPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
-    case previousPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
+struct Utility {
 
-    // Sorts
-    case swap(repeatCount: Int, lowerBound: Int, upperBound: Int)
-    case bubbleSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
-    
+    static func generateRandomArrayOfInt(elementCount: Int, elementLowerBound: Int, elementUpperBound: Int) throws -> [Int] {
+        guard elementCount >= 0 else {
+            throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+        }
+        guard elementLowerBound < elementUpperBound else {
+            throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+        }
+
+        var integers = [Int]()
+        for index in 0 ..< elementCount {
+            integers.append(Int.random(in: elementLowerBound ... elementUpperBound))
+        }
+        return integers
+    }
 }

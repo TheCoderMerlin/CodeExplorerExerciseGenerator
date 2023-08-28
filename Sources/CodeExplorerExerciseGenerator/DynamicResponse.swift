@@ -30,6 +30,10 @@ public class DynamicResponse {
         targetFilesDictionary[targetPathname.rawValue]!.append(lines)
     }
 
+    public func append(lines: [String], to targetPathname: TargetPathname) {
+        targetFilesDictionary[targetPathname.rawValue]!.append(lines.joined(separator: "\n"))
+    }
+
     private func response() throws -> Response {
         let nonEmptyTargetFilesDictionary = targetFilesDictionary.filter { !$0.value.isEmpty }
         let nonEmptyTargetFiles = nonEmptyTargetFilesDictionary.map { TargetFile(path: $0.key, contents: $0.value) }
