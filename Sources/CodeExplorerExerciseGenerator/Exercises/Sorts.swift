@@ -45,8 +45,8 @@ struct Sorts {
         static func generate(exercise: Exercise) throws -> DynamicResponse {
             if case let .swap(repeatCount, lowerBound, upperBound) = exercise {
                 guard lowerBound < upperBound else {
-                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
-                }
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+            }
 
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()
                 let instructions = """
@@ -60,24 +60,36 @@ struct Sorts {
                 response.append(lines: instructions, to: .instructions)
 
                 let idealSolution = """
-                  func bubbleSort(integers: inout [Int]) {
-                      var didSwap: Bool 
-                      repeat {
-                          didSwap = false
-                          for rightIndex in 1 ..< integers.count - 1 {
-                              let leftIndex = rightIndex - 1
-                              if integers[leftIndex] < integers[rightIndex] {
-                                  swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
-                                  didSwap = true 
-                              }
-                          }
-                       } while didSwap 
+                  func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
+                      let temp = integers[firstIndex]
+                      integers[firstIndex] = integer[secondIndex]
+                      integers[secondIndex] = temp
                   }
                   """
                 response.append(lines: idealSolution, to: .idealSolution)
 
-                for _ in 1 ... repeatCount {
+                for index in 1 ... repeatCount {
+                    let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 2 ... 20),
+                                                                        elementLowerBound: lowerBound, elementUpperBound: upperBound)
+                    let firstIndex = Int.random(in: 0 ..< integers.count)
+                    let secondIndex = Int.random(in: 0 ..< integers.count)
+                    var swappedIntegers = integers
+                    swappedIntegers.swapAt(firstIndex, secondIndex)
+                    let arrayName = "integers_\(index)"
+
+                    // Append
+                    let append = """
+                      var \(arrayName) = \(integers)
+                      swap(integers: &\(arrayName))
+                      print(\(arrayName))
+                      """
+                    response.append(lines: append, to: .append)
+
                     
+                    // Expected output
+                    response.append(line: "\(swappedIntegers)", to: .expectedOutput)
+
+                    return response 
                 }
 
                 return response
@@ -90,6 +102,21 @@ struct Sorts {
     struct BubbleSort {
         static func generate(exercise: Exercise) throws -> DynamicResponse {
             let response = CodeExplorerExerciseGenerator.DynamicResponse()
+            let idealSolution = """
+              func bubbleSort(integers: inout [Int]) {
+                  var didSwap: Bool 
+                  repeat {
+                      didSwap = false
+                      for rightIndex in 1 ..< integers.count - 1 {
+                          let leftIndex = rightIndex - 1
+                          if integers[leftIndex] < integers[rightIndex] {
+                              swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
+                              didSwap = true 
+                          }
+                      }
+                  } while didSwap 
+              }
+              """
             return response
         }
         

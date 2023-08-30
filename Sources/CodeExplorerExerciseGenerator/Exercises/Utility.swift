@@ -22,7 +22,7 @@ struct Utility {
         }
 
         var integers = [Int]()
-        for index in 0 ..< elementCount {
+        for _ in 0 ..< elementCount {
             integers.append(Int.random(in: elementLowerBound ... elementUpperBound))
         }
         return integers
