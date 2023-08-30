@@ -62,7 +62,7 @@ struct Sorts {
                 let idealSolution = """
                   func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
                       let temp = integers[firstIndex]
-                      integers[firstIndex] = integer[secondIndex]
+                      integers[firstIndex] = integers[secondIndex]
                       integers[secondIndex] = temp
                   }
                   """
@@ -118,7 +118,7 @@ struct Sorts {
                 let requiredCode = """
                   func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
                       let temp = integers[firstIndex]
-                      integers[firstIndex] = integer[secondIndex]
+                      integers[firstIndex] = integers[secondIndex]
                       integers[secondIndex] = temp
                   }
                   """
