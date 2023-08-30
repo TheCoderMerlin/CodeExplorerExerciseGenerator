@@ -23,15 +23,18 @@ public class DynamicResponse {
     }
 
     public func append(line: String, to targetPathname: TargetPathname) {
-        targetFilesDictionary[targetPathname.rawValue]!.append(line + "\n")
+        let lineAndNewline = line + "\n"
+        targetFilesDictionary[targetPathname.rawValue]!.append(lineAndNewline)
     }
 
     public func append(lines: String, to targetPathname: TargetPathname) {
-        targetFilesDictionary[targetPathname.rawValue]!.append(lines)
+        let linesAndNewline = lines + "\n"
+        targetFilesDictionary[targetPathname.rawValue]!.append(linesAndNewline)
     }
 
     public func append(lines: [String], to targetPathname: TargetPathname) {
-        targetFilesDictionary[targetPathname.rawValue]!.append(lines.joined(separator: "\n"))
+        let linesAndNewline = lines.joined(separator: "\n") + "\n"
+        targetFilesDictionary[targetPathname.rawValue]!.append(linesAndNewline)
     }
 
     private func response() throws -> Response {
