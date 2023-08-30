@@ -57,7 +57,7 @@ struct Sorts {
                   <li>The function returns nothing but swaps the values at the specified indices in place.</li>
                   </ol>
                   """
-                response.append(lines: instructions, to: .instructions)
+                response.append(line: instructions, to: .instructions)
 
                 let idealSolution = """
                   func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
@@ -66,7 +66,7 @@ struct Sorts {
                       integers[secondIndex] = temp
                   }
                   """
-                response.append(lines: idealSolution, to: .idealSolution)
+                response.append(line: idealSolution, to: .idealSolution)
 
                 for index in 1 ... repeatCount {
                     let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 2 ... 20),
@@ -83,7 +83,7 @@ struct Sorts {
                       swap(integers: &\(arrayName), firstIndex: \(firstIndex), secondIndex: \(secondIndex))
                       print(\(arrayName))
                       """
-                    response.append(lines: append, to: .append)
+                    response.append(line: append, to: .append)
 
                     
                     // Expected output
@@ -113,7 +113,16 @@ struct Sorts {
                   <li>You may assume the function <code>swap(integers: inout [Int], firstIndex: Int, secondIndex: Int)</code> is available.</li>
                   </ol>
                   """
-                response.append(lines: instructions, to: .instructions)
+                response.append(line: instructions, to: .instructions)
+
+                let requiredCode = """
+                  func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
+                      let temp = integers[firstIndex]
+                      integers[firstIndex] = integer[secondIndex]
+                      integers[secondIndex] = temp
+                  }
+                  """
+                response.append(line: requiredCode, to: .append)
                 
                 let idealSolution = """
                   func bubbleSort(integers: inout [Int]) {
@@ -130,7 +139,7 @@ struct Sorts {
                        } while didSwap 
                   }
                   """
-                response.append(lines: idealSolution, to: .idealSolution)
+                response.append(line: idealSolution, to: .idealSolution)
 
                 for index in 1 ... repeatCount {
                     let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 10 ... 20),
@@ -145,7 +154,7 @@ struct Sorts {
                       var \(arrayName) = \(integers)
                       bubbleSort(integers: &\(arrayName))
                       """
-                    response.append(lines: append, to: .append)
+                    response.append(line: append, to: .append)
 
                     // Expected output
                     response.append(lines: expectedOutput, to: .expectedOutput)

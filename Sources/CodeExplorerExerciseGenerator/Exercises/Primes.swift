@@ -70,7 +70,7 @@ struct Primes {
                   <li>Assume that any number less than two is not prime.</li>
                   </ol>
                   """
-                response.append(lines: instructions, to: .instructions)
+                response.append(line: instructions, to: .instructions)
                 
                 let idealSolution = """
                   func isPrime(maybePrime: Int) -> Bool {     
@@ -89,7 +89,7 @@ struct Primes {
                       return evenDivisionCount == 2           
                   }                                           
                   """
-                response.append(lines: idealSolution, to: .idealSolution)
+                response.append(line: idealSolution, to: .idealSolution)
 
                 for _ in 1 ... repeatCount {
                     let maybePrime = Int.random(in: lowerBound ... upperBound)
@@ -126,7 +126,7 @@ struct Primes {
                   <li>You may assume that the function <code>isPrime(maybePrime: Int) -> Bool</code> is available.</li>
                   </ol>
                   """
-                response.append(lines: instructions, to: .instructions)
+                response.append(line: instructions, to: .instructions)
                 
                 let requiredCode = """
                   func isPrime(maybePrime: Int) -> Bool {     
@@ -194,7 +194,7 @@ struct Primes {
                   <li>You may assume that the function <code>isPrime(maybePrime: Int) -> Bool</code> is available.</li>
                   </ol>
                   """
-                response.append(lines: instructions, to: .instructions)
+                response.append(line: instructions, to: .instructions)
                 
                 let requiredCode = """
                   func isPrime(maybePrime: Int) -> Bool {     
