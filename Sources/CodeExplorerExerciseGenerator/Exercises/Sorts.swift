@@ -99,26 +99,64 @@ struct Sorts {
 
     struct BubbleSort {
         static func generate(exercise: Exercise) throws -> DynamicResponse {
-            let response = CodeExplorerExerciseGenerator.DynamicResponse()
-            let idealSolution = """
-              func bubbleSort(integers: inout [Int]) {
-                  var didSwap: Bool 
-                  repeat {
-                      didSwap = false
-                      for rightIndex in 1 ..< integers.count - 1 {
-                          let leftIndex = rightIndex - 1
-                          if integers[leftIndex] < integers[rightIndex] {
-                              swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
-                              didSwap = true 
-                          }
-                      }
-                  } while didSwap 
-              }
-              """
-            return response
+            if case let .bubbleSort(repeatCount, lowerBound, upperBound) = exercise {
+                guard lowerBound < upperBound else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
+
+                let response = CodeExplorerExerciseGenerator.DynamicResponse()
+                let instructions = """
+                  <ol>
+                  <li>Create a function named <code>bubbleSort</code> which accepts a single parameter, <code>integers</code>, an array of integer.</li>
+                  <li>The function returns nothing but sorts the array in place using the bubble sort algorithm.</li>
+                  <li>The function must print the current contents of the array at the top of each pass.</li>
+                  <li>You may assume the function <code>swap(integers: inout [Int], firstIndex: Int, secondIndex: Int)</code> is available.</li>
+                  </ol>
+                  """
+                response.append(lines: instructions, to: .instructions)
+                
+                let idealSolution = """
+                  func bubbleSort(integers: inout [Int]) {
+                      var didSwap: Bool 
+                      repeat {
+                          didSwap = false
+                          for rightIndex in 1 ..< integers.count - 1 {
+                              let leftIndex = rightIndex - 1
+                              if integers[leftIndex] < integers[rightIndex] {
+                                  swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
+                                  didSwap = true 
+                              }
+                           }
+                       } while didSwap 
+                  }
+                  """
+                response.append(lines: idealSolution, to: .idealSolution)
+
+                for index in 1 ... repeatCount {
+                    let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 10 ... 20),
+                                                                        elementLowerBound: lowerBound, elementUpperBound: upperBound)
+                    var sortedIntegers = integers 
+                    var expectedOutput = [String]()
+                    bubbleSort(integers: &sortedIntegers, expectedOutput: &expectedOutput)
+                    let arrayName = "integers_\(index)"
+
+                    // Append
+                    let append = """
+                      var \(arrayName) = \(integers)
+                      bubbleSort(integers: &\(arrayName))
+                      """
+                    response.append(lines: append, to: .append)
+
+                    // Expected output
+                    response.append(lines: "\(expectedOutput)", to: .expectedOutput)
+                }
+
+
+                return response
+            } else {
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidExerciseType
+            }
         }
-        
     }
-    
 }
 
