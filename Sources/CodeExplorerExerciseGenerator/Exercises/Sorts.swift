@@ -45,8 +45,8 @@ struct Sorts {
         static func generate(exercise: Exercise) throws -> DynamicResponse {
             if case let .swap(repeatCount, lowerBound, upperBound) = exercise {
                 guard lowerBound < upperBound else {
-                throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
-            }
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
 
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()
                 let instructions = """
@@ -88,8 +88,6 @@ struct Sorts {
                     
                     // Expected output
                     response.append(line: "\(swappedIntegers)", to: .expectedOutput)
-
-                    return response 
                 }
 
                 return response
