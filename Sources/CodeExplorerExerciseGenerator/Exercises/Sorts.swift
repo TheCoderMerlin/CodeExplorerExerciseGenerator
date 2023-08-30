@@ -148,7 +148,7 @@ struct Sorts {
                     response.append(lines: append, to: .append)
 
                     // Expected output
-                    response.append(lines: "\(expectedOutput)", to: .expectedOutput)
+                    response.append(lines: expectedOutput, to: .expectedOutput)
                 }
 
 
