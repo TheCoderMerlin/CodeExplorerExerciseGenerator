@@ -80,7 +80,7 @@ struct Sorts {
                     // Append
                     let append = """
                       var \(arrayName) = \(integers)
-                      swap(integers: &\(arrayName))
+                      swap(integers: &\(arrayName), firstIndex: \(firstIndex), secondIndex: \(secondIndex))
                       print(\(arrayName))
                       """
                     response.append(lines: append, to: .append)
