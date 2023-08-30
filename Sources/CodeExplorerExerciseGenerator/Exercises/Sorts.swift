@@ -30,9 +30,9 @@ struct Sorts {
         repeat {
             expectedOutput.append(integers.description)
             didSwap = false
-            for rightIndex in 1 ..< integers.count - 1 {
+            for rightIndex in 1 ..< integers.count  {
                 let leftIndex = rightIndex - 1
-                if integers[leftIndex] < integers[rightIndex] {
+                if integers[leftIndex] > integers[rightIndex] {
                     swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
                     didSwap = true 
                 }
@@ -129,9 +129,9 @@ struct Sorts {
                       var didSwap: Bool 
                       repeat {
                           didSwap = false
-                          for rightIndex in 1 ..< integers.count - 1 {
+                          for rightIndex in 1 ..< integers.count {
                               let leftIndex = rightIndex - 1
-                              if integers[leftIndex] < integers[rightIndex] {
+                              if integers[leftIndex] > integers[rightIndex] {
                                   swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
                                   didSwap = true 
                               }
