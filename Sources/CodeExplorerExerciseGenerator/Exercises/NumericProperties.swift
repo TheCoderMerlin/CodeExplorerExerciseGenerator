@@ -56,7 +56,7 @@ struct NumericProperties {
                     response.append(line: "\(maybeEven): \(isEven(maybeEven: maybeEven))", to: .expectedOutput)
 
                     // Append
-                    response.append(line: "print(maybeEven, isEven(maybeEven: \(maybeEven)), separator: \": \")", to: .append)
+                    response.append(line: "print(\(maybeEven), isEven(maybeEven: \(maybeEven)), separator: \": \")", to: .append)
                 }
 
                 return response
@@ -105,7 +105,7 @@ struct NumericProperties {
                     response.append(line: "\(maybeOdd): \(isOdd(maybeOdd: maybeOdd))", to: .expectedOutput)
 
                     // Append
-                    response.append(line: "print(maybeOdd, isOdd(maybeOdd: \(maybeOdd)), separator: \": \")", to: .append)
+                    response.append(line: "print(\(maybeOdd), isOdd(maybeOdd: \(maybeOdd)), separator: \": \")", to: .append)
                 }
 
                 return response
@@ -165,7 +165,7 @@ struct NumericProperties {
                     response.append(line: "\(firstNumber), \(secondNumber): \(hasOppositeSigns(firstNumber: firstNumber, secondNumber: secondNumber))", to: .expectedOutput)
 
                     // Append
-                    response.append(line: "print(firstNumber, \", \", secondNumber, \": \", hasOppositeSigns(firstNumber: \(firstNumber), secondNumber: \(secondNumber)))", to: .append)
+                    response.append(line: "print(\(firstNumber), \", \", \(secondNumber), \": \", hasOppositeSigns(firstNumber: \(firstNumber), secondNumber: \(secondNumber)))", to: .append)
                 }
 
                 return response
