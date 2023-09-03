@@ -12,6 +12,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 public enum Exercise {
+    // Numeric Properties
+    case isEven(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case isOdd(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case hasOppositeSigns(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    
     // Primes
     case isPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case nextPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)

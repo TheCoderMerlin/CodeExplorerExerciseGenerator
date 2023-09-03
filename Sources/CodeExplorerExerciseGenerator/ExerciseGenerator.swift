@@ -28,6 +28,15 @@ public class ExerciseGenerator {
         let response: DynamicResponse
         
         switch exercise {
+        // Numeric properties 
+        case .isEven(_, _, _):
+            response = try NumericProperties.IsEven.generate(exercise: exercise)
+        case .isOdd(_, _, _):
+            response = try NumericProperties.IsOdd.generate(exercise: exercise)
+        case .hasOppositeSigns(_, _, _):
+            response = try NumericProperties.HasOppositeSigns.generate(exercise: exercise)
+
+            
         // Primes
         case .isPrime(_, _, _):
             response = try Primes.IsPrime.generate(exercise: exercise)
