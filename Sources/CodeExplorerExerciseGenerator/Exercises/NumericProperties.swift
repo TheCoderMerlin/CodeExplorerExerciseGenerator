@@ -165,7 +165,7 @@ struct NumericProperties {
                     response.append(line: "\(firstNumber), \(secondNumber): \(hasOppositeSigns(firstNumber: firstNumber, secondNumber: secondNumber))", to: .expectedOutput)
 
                     // Append
-                    response.append(line: "print(\(firstNumber), \", \", \(secondNumber), \": \", hasOppositeSigns(firstNumber: \(firstNumber), secondNumber: \(secondNumber)))", to: .append)
+                    response.append(line: "print(\(firstNumber), \", \", \(secondNumber), \": \", hasOppositeSigns(firstNumber: \(firstNumber), secondNumber: \(secondNumber)), separator: \"\")", to: .append)
                 }
 
                 return response
