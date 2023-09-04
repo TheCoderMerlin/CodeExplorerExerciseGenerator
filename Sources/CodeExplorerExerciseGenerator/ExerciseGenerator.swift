@@ -27,11 +27,15 @@ public class ExerciseGenerator {
 
     public func generate() throws {
         let response: DynamicResponse
-        
+         
         switch exercise {
         // Alternate bases
         case .binaryToDecimal(_, _, _):
             response = try AlternateBases.BinaryToDecimal.generate(exercise: exercise)
+        case .octalToDecimal(_, _, _):
+            response = try AlternateBases.OctalToDecimal.generate(exercise: exercise)
+        case .hexadecimalToDecimal(_, _, _):
+            response = try AlternateBases.HexadecimalToDecimal.generate(exercise: exercise)
 
         // Numeric properties 
         case .isEven(_, _, _):

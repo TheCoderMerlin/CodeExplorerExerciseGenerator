@@ -14,6 +14,8 @@
 public enum Exercise {
     // Alternate Bases
     case binaryToDecimal(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case octalToDecimal(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case hexadecimalToDecimal(repeatCount: Int, lowerBound: Int, upperBound: Int)
     
     // Numeric Properties
     case isEven(repeatCount: Int, lowerBound: Int, upperBound: Int)
