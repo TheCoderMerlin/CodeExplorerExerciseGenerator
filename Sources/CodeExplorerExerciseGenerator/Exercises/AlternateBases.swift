@@ -98,7 +98,7 @@ struct AlternateBases {
 
     struct HexadecimalToDecimal: ExerciseGeneratable {
         static func generate(exercise: Exercise) throws -> DynamicResponse {
-            if case let .octalToDecimal(repeatCount, lowerBound, upperBound) = exercise {
+            if case let .hexadecimalToDecimal(repeatCount, lowerBound, upperBound) = exercise {
                 guard repeatCount >= 1 else {
                     throw ExerciseGenerator.ExerciseGeneratorError.invalidRepeatCountSpecified
                 }
