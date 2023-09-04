@@ -15,6 +15,7 @@ public class ExerciseGenerator {
     enum ExerciseGeneratorError: Error {
         case invalidExerciseType
         case invalidBoundsSpecified
+        case invalidRepeatCountSpecified
     }
     
 
@@ -28,6 +29,10 @@ public class ExerciseGenerator {
         let response: DynamicResponse
         
         switch exercise {
+        // Alternate bases
+        case .binaryToDecimal(_, _, _):
+            response = try AlternateBases.BinaryToDecimal.generate(exercise: exercise)
+
         // Numeric properties 
         case .isEven(_, _, _):
             response = try NumericProperties.IsEven.generate(exercise: exercise)

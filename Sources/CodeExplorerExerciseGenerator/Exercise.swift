@@ -12,6 +12,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 public enum Exercise {
+    // Alternate Bases
+    case binaryToDecimal(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    
     // Numeric Properties
     case isEven(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case isOdd(repeatCount: Int, lowerBound: Int, upperBound: Int)
