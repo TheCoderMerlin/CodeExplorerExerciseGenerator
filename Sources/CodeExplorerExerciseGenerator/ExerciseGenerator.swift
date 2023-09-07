@@ -63,6 +63,8 @@ public class ExerciseGenerator {
             response = try Sorts.SelectionSort.generate(exercise: exercise)
         case .insertionSort(_, _, _):
             response = try Sorts.InsertionSort.generate(exercise: exercise)
+        case .mergeSort(_, _, _):
+            response = try Sorts.MergeSort.generate(exercise: exercise)
         }
 
         print(try response.responseString())

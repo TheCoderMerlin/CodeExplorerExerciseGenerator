@@ -72,6 +72,59 @@ struct Sorts {
         expectedOutput.append(data.description)
     }
 
+    static func merge<T:Comparable>(data:inout [T], leftLowerBoundIndex:Int, middleBoundIndex:Int, rightUpperBoundIndex:Int)  {
+        // Create temporary arrays
+        let leftUpperBoundIndex = middleBoundIndex
+        let rightLowerBoundIndex = leftUpperBoundIndex + 1
+
+
+        let leftArray = Array(data[leftLowerBoundIndex ... leftUpperBoundIndex])
+        let rightArray = Array(data[rightLowerBoundIndex ... rightUpperBoundIndex])
+
+        // Merge arrays back into source from leftLowerBoundIndex to rightUpperBoundIndex
+        var leftIndex = 0
+        var rightIndex = 0
+        var mergedIndex = leftLowerBoundIndex
+
+        while (leftIndex < leftArray.count && rightIndex < rightArray.count) {
+            if leftArray[leftIndex] <= rightArray[rightIndex] {
+                data[mergedIndex] = leftArray[leftIndex]
+                leftIndex += 1
+            } else {
+                data[mergedIndex] = rightArray[rightIndex]
+                rightIndex += 1
+            }
+            mergedIndex += 1
+        }
+
+        // Copy remaining elements from the left (if any)
+        while (leftIndex < leftArray.count) {
+            data[mergedIndex] = leftArray[leftIndex]
+            leftIndex += 1
+            mergedIndex += 1
+        }
+
+        // Copy remaining elements from the right (if any)
+        while (rightIndex < rightArray.count) {
+            data[mergedIndex] = rightArray[rightIndex]
+            rightIndex += 1
+            mergedIndex += 1
+        }
+    }
+
+    public static func mergeSort<T:Comparable>(data:inout [T], lowerBoundIndex:Int, upperBoundIndex:Int, expectedOutput: inout [String])  {
+        if (lowerBoundIndex < upperBoundIndex) {
+            let middleBoundIndex = (lowerBoundIndex + upperBoundIndex) / 2
+
+            // Sort the left and right halves individually
+            mergeSort(data:&data, lowerBoundIndex:lowerBoundIndex, upperBoundIndex:middleBoundIndex, expectedOutput: &expectedOutput)
+            mergeSort(data:&data, lowerBoundIndex:middleBoundIndex+1, upperBoundIndex:upperBoundIndex, expectedOutput: &expectedOutput)
+
+            // Then merge the two halves back together
+            merge(data:&data, leftLowerBoundIndex:lowerBoundIndex, middleBoundIndex:middleBoundIndex, rightUpperBoundIndex:upperBoundIndex)
+            expectedOutput.append(data.description)
+        }
+    }
 
     struct Swap: ExerciseGeneratable {
 
@@ -331,6 +384,112 @@ struct Sorts {
                     let append = """
                       var \(arrayName) = \(integers)
                       insertionSort(integers: &\(arrayName))
+                      """
+                    response.append(line: append, to: .append)
+
+                    // Expected output
+                    response.append(lines: expectedOutput, to: .expectedOutput)
+                }
+
+
+                return response
+            } else {
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidExerciseType
+            }
+        }
+    }
+
+    struct MergeSort {
+        static func generate(exercise: Exercise) throws -> DynamicResponse {
+            if case let .mergeSort(repeatCount, lowerBound, upperBound) = exercise {
+                guard lowerBound < upperBound else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
+
+                let response = CodeExplorerExerciseGenerator.DynamicResponse()
+                let instructions = """
+                  <ol>
+                  <li>Create a function named <code>mergeSort</code> which accepts a single parameter, <code>integers</code>, an array of integer.</li>
+                  <li>The function returns nothing but sorts the array in place using the merge sort algorithm.</li>
+                  <li>The function must print the current contents of each merged array immediately after combining the two halves.</li>
+                  </ol>
+                  """
+                response.append(line: instructions, to: .instructions)
+
+                let idealSolution = """
+                  func mergeSort(integers: inout [Int]) {
+                      mergeSort(integers: &integers)
+                  }
+
+                  func mergeSort(integers: inout [Int], lowerBoundIndex:Int, upperBoundIndex:Int) {
+                      if (lowerBoundIndex < upperBoundIndex) {
+                          let middleBoundIndex = (lowerBoundIndex + upperBoundIndex) / 2
+
+                          // Sort the left and right halves individually
+                          mergeSort(integers: &integers, lowerBoundIndex:lowerBoundIndex, upperBoundIndex:middleBoundIndex)
+                          mergeSort(integers: &integers, lowerBoundIndex:middleBoundIndex+1, upperBoundIndex:upperBoundIndex)
+
+                          // Then merge the two halves back together
+                          merge(integers: &integers, leftLowerBoundIndex:lowerBoundIndex, middleBoundIndex:middleBoundIndex, rightUpperBoundIndex:upperBoundIndex)
+                          print(integers)
+                      }
+                  }
+
+                  func merge(integers: inout [Int], leftLowerBoundIndex:Int, middleBoundIndex:Int, rightUpperBoundIndex:Int)  {
+                      // Create temporary arrays
+                      let leftUpperBoundIndex = middleBoundIndex
+                      let rightLowerBoundIndex = leftUpperBoundIndex + 1
+
+
+                      let leftArray = Array(integers[leftLowerBoundIndex ... leftUpperBoundIndex])
+                      let rightArray = Array(integers[rightLowerBoundIndex ... rightUpperBoundIndex])
+
+                      // Merge arrays back into source from leftLowerBoundIndex to rightUpperBoundIndex
+                      var leftIndex = 0
+                      var rightIndex = 0
+                      var mergedIndex = leftLowerBoundIndex
+
+                      while (leftIndex < leftArray.count && rightIndex < rightArray.count) {
+                          if leftArray[leftIndex] <= rightArray[rightIndex] {
+                              integers[mergedIndex] = leftArray[leftIndex]
+                              leftIndex += 1
+                          } else {
+                              integers[mergedIndex] = rightArray[rightIndex]
+                              rightIndex += 1
+                          }
+                          mergedIndex += 1
+                      }
+
+                      // Copy remaining elements from the left (if any)
+                      while (leftIndex < leftArray.count) {
+                          integers[mergedIndex] = leftArray[leftIndex]
+                          leftIndex += 1
+                          mergedIndex += 1
+                      }
+
+                      // Copy remaining elements from the right (if any)
+                      while (rightIndex < rightArray.count) {
+                          integers[mergedIndex] = rightArray[rightIndex]
+                          rightIndex += 1
+                          mergedIndex += 1
+                      }
+                  }
+
+                  """
+                response.append(line: idealSolution, to: .idealSolution)
+
+                for index in 1 ... repeatCount {
+                    let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 10 ... 20),
+                                                                        elementLowerBound: lowerBound, elementUpperBound: upperBound)
+                    var sortedIntegers = integers 
+                    var expectedOutput = [String]()
+                    mergeSort(data: &sortedIntegers, lowerBoundIndex: 0, upperBoundIndex: sortedIntegers.count, expectedOutput: &expectedOutput)
+                    let arrayName = "integers_\(index)"
+
+                    // Append
+                    let append = """
+                      var \(arrayName) = \(integers)
+                      mergeSort(integers: &\(arrayName))
                       """
                     response.append(line: append, to: .append)
 
