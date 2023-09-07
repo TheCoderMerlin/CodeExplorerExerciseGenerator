@@ -59,6 +59,8 @@ public class ExerciseGenerator {
             response = try Sorts.Swap.generate(exercise: exercise)
         case .bubbleSort(_, _, _):
             response = try Sorts.BubbleSort.generate(exercise: exercise)
+        case .selectionSort(_, _, _):
+            response = try Sorts.SelectionSort.generate(exercise: exercise)
 
         }
 

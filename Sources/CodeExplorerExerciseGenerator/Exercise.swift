@@ -30,5 +30,6 @@ public enum Exercise {
     // Sorts
     case swap(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case bubbleSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case selectionSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
     
 }
