@@ -43,8 +43,7 @@ struct Sorts {
         } while didSwap 
     }
 
-    // Reference:  https://www.geeksforgeeks.org/selection-sort/                                                            
-    public static func selectionSort<T: Comparable>(data: inout [T], expectedOutput: inout [String]) {
+    static func selectionSort<T: Comparable>(data: inout [T], expectedOutput: inout [String]) {
         for targetIndex in 0 ..< data.count-1 {
             expectedOutput.append(data.description)
             var minimumIndex = targetIndex
@@ -57,6 +56,22 @@ struct Sorts {
         }
         expectedOutput.append(data.description)
     }
+
+    static func insertionSort<T:Comparable>(data: inout [T], expectedOutput: inout [String]) {
+        for sourceIndex in 1 ..< data.count {
+            expectedOutput.append(data.description)
+            let sourceElement = data[sourceIndex]
+            var moveIndex = sourceIndex - 1
+
+            while ((moveIndex >= 0) && (data[moveIndex] > sourceElement)) {
+                data[moveIndex+1] = data[moveIndex]
+                moveIndex -= 1
+            }
+            data[moveIndex+1] = sourceElement
+        }
+        expectedOutput.append(data.description)
+    }
+
 
     struct Swap: ExerciseGeneratable {
 
@@ -216,16 +231,16 @@ struct Sorts {
                 response.append(line: requiredCode, to: .append)
                 
                 let idealSolution = """
-                  public static func selectionSort(integers: inout [Int]) {
-                      for targetIndex in 0 ..< data.count-1 {
+                  func selectionSort(integers: inout [Int]) {
+                      for targetIndex in 0 ..< integers.count-1 {
                           print(integers)
                           var minimumIndex = targetIndex
-                          for findMinimumIndex in targetIndex+1 ..< data.count {
-                              if data[findMinimumIndex] < data[minimumIndex] {
+                          for findMinimumIndex in targetIndex+1 ..< integers.count {
+                              if integers[findMinimumIndex] < integers[minimumIndex] {
                                   minimumIndex = findMinimumIndex
                               }
                           }
-                          swap(data: &data, firstIndex: minimumIndex, secondIndex:targetIndex)
+                          swap(integers: &integers, firstIndex: minimumIndex, secondIndex:targetIndex)
                       }
                       print(integers)
                   }
@@ -258,5 +273,78 @@ struct Sorts {
             }
         }
     }
+
+    struct InsertionSort {
+        static func generate(exercise: Exercise) throws -> DynamicResponse {
+            if case let .insertionSort(repeatCount, lowerBound, upperBound) = exercise {
+                guard lowerBound < upperBound else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
+
+                let response = CodeExplorerExerciseGenerator.DynamicResponse()
+                let instructions = """
+                  <ol>
+                  <li>Create a function named <code>insertionSort</code> which accepts a single parameter, <code>integers</code>, an array of integer.</li>
+                  <li>The function returns nothing but sorts the array in place using the insertion sort algorithm.</li>
+                  <li>The function must print the current contents of the array at the top of each pass and once before returning.</li>
+                  <li>You may assume the function <code>swap(integers: inout [Int], firstIndex: Int, secondIndex: Int)</code> is available.</li>
+                  </ol>
+                  """
+                response.append(line: instructions, to: .instructions)
+
+                let requiredCode = """
+                  func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
+                      let temp = integers[firstIndex]
+                      integers[firstIndex] = integers[secondIndex]
+                      integers[secondIndex] = temp
+                  }
+                  """
+                response.append(line: requiredCode, to: .append)
+                
+                let idealSolution = """
+                  func insertionSort(integers: inout [Int]) {
+                      for sourceIndex in 1 ..< integers.count {
+                          print(integers)
+                          let sourceElement = integers[sourceIndex]
+                          var moveIndex = sourceIndex - 1
+
+                          while ((moveIndex >= 0) && (integers[moveIndex] > sourceElement)) {
+                              integers[moveIndex+1] = integers[moveIndex]
+                              moveIndex -= 1
+                          }
+                          integers[moveIndex+1] = sourceElement
+                      }
+                      print(integers)
+                  }
+                  """
+                response.append(line: idealSolution, to: .idealSolution)
+
+                for index in 1 ... repeatCount {
+                    let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 10 ... 20),
+                                                                        elementLowerBound: lowerBound, elementUpperBound: upperBound)
+                    var sortedIntegers = integers 
+                    var expectedOutput = [String]()
+                    insertionSort(data: &sortedIntegers, expectedOutput: &expectedOutput)
+                    let arrayName = "integers_\(index)"
+
+                    // Append
+                    let append = """
+                      var \(arrayName) = \(integers)
+                      insertionSort(integers: &\(arrayName))
+                      """
+                    response.append(line: append, to: .append)
+
+                    // Expected output
+                    response.append(lines: expectedOutput, to: .expectedOutput)
+                }
+
+
+                return response
+            } else {
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidExerciseType
+            }
+        }
+    }
+
 }
 
