@@ -418,7 +418,7 @@ struct Sorts {
 
                 let idealSolution = """
                   func mergeSort(integers: inout [Int]) {
-                      mergeSort(integers: &integers)
+                      mergeSort(integers: &integers, lowerBoundIndex: 0, upperBoundIndex: integers.count - 1)
                   }
 
                   func mergeSort(integers: inout [Int], lowerBoundIndex:Int, upperBoundIndex:Int) {
@@ -483,7 +483,7 @@ struct Sorts {
                                                                         elementLowerBound: lowerBound, elementUpperBound: upperBound)
                     var sortedIntegers = integers 
                     var expectedOutput = [String]()
-                    mergeSort(data: &sortedIntegers, lowerBoundIndex: 0, upperBoundIndex: sortedIntegers.count, expectedOutput: &expectedOutput)
+                    mergeSort(data: &sortedIntegers, lowerBoundIndex: 0, upperBoundIndex: sortedIntegers.count - 1, expectedOutput: &expectedOutput)
                     let arrayName = "integers_\(index)"
 
                     // Append
