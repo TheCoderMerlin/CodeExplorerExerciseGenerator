@@ -14,30 +14,48 @@
 
 struct Sorts {
     // Helper functions
-    static func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
-        precondition((0..<integers.count).contains(firstIndex), "firstIndex is out of bounds")
-        precondition((0..<integers.count).contains(secondIndex), "secondIndex is out of bounds")
+    static func swap<T: Comparable>(data: inout [T], firstIndex: Int, secondIndex: Int) {
+        precondition((0 ..< data.count).contains(firstIndex), "firstIndex is out of bounds")
+        precondition((0 ..< data.count).contains(secondIndex), "secondIndex is out of bounds")
         
-        let temp = integers[firstIndex]
-        integers[firstIndex] = integers[secondIndex]
-        integers[secondIndex] = temp
+        let temp = data[firstIndex]
+        data[firstIndex] = data[secondIndex]
+        data[secondIndex] = temp
     }
 
-    static func bubbleSort(integers: inout [Int], expectedOutput: inout [String]) {
-        precondition(integers.count > 1, "integers is too small to sort")
+    static func bubbleSort<T: Comparable>(data: inout [T], expectedOutput: inout [String]) {
+        guard data.count >= 2 else {
+            expectedOutput.append(data.description)
+            return
+        } 
         
         var didSwap: Bool 
         repeat {
-            expectedOutput.append(integers.description)
+            expectedOutput.append(data.description)
             didSwap = false
-            for rightIndex in 1 ..< integers.count  {
+            for rightIndex in 1 ..< data.count  {
                 let leftIndex = rightIndex - 1
-                if integers[leftIndex] > integers[rightIndex] {
-                    swap(integers: &integers, firstIndex: leftIndex, secondIndex: rightIndex)
+                if data[leftIndex] > data[rightIndex] {
+                    swap(data: &data, firstIndex: leftIndex, secondIndex: rightIndex)
                     didSwap = true 
                 }
             }
         } while didSwap 
+    }
+
+    // Reference:  https://www.geeksforgeeks.org/selection-sort/                                                            
+    public static func selectionSort<T: Comparable>(data: inout [T], expectedOutput: inout [String]) {
+        for targetIndex in 0 ..< data.count-1 {
+            expectedOutput.append(data.description)
+            var minimumIndex = targetIndex
+            for findMinimumIndex in targetIndex+1 ..< data.count {
+                if data[findMinimumIndex] < data[minimumIndex] {
+                    minimumIndex = findMinimumIndex
+                }
+            }
+            swap(data: &data, firstIndex: minimumIndex, secondIndex:targetIndex)
+        }
+        expectedOutput.append(data.description)
     }
 
     struct Swap: ExerciseGeneratable {
@@ -128,6 +146,7 @@ struct Sorts {
                   func bubbleSort(integers: inout [Int]) {
                       var didSwap: Bool 
                       repeat {
+                          print(integers)
                           didSwap = false
                           for rightIndex in 1 ..< integers.count {
                               let leftIndex = rightIndex - 1
@@ -146,13 +165,85 @@ struct Sorts {
                                                                         elementLowerBound: lowerBound, elementUpperBound: upperBound)
                     var sortedIntegers = integers 
                     var expectedOutput = [String]()
-                    bubbleSort(integers: &sortedIntegers, expectedOutput: &expectedOutput)
+                    bubbleSort(data: &sortedIntegers, expectedOutput: &expectedOutput)
                     let arrayName = "integers_\(index)"
 
                     // Append
                     let append = """
                       var \(arrayName) = \(integers)
                       bubbleSort(integers: &\(arrayName))
+                      """
+                    response.append(line: append, to: .append)
+
+                    // Expected output
+                    response.append(lines: expectedOutput, to: .expectedOutput)
+                }
+
+
+                return response
+            } else {
+                throw ExerciseGenerator.ExerciseGeneratorError.invalidExerciseType
+            }
+        }
+    }
+
+
+    struct SelectionSort {
+        static func generate(exercise: Exercise) throws -> DynamicResponse {
+            if case let .selectionSort(repeatCount, lowerBound, upperBound) = exercise {
+                guard lowerBound < upperBound else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.invalidBoundsSpecified
+                }
+
+                let response = CodeExplorerExerciseGenerator.DynamicResponse()
+                let instructions = """
+                  <ol>
+                  <li>Create a function named <code>selectionSort</code> which accepts a single parameter, <code>integers</code>, an array of integer.</li>
+                  <li>The function returns nothing but sorts the array in place using the selection sort algorithm.</li>
+                  <li>The function must print the current contents of the array at the top of each pass and once before returning.</li>
+                  <li>You may assume the function <code>swap(integers: inout [Int], firstIndex: Int, secondIndex: Int)</code> is available.</li>
+                  </ol>
+                  """
+                response.append(line: instructions, to: .instructions)
+
+                let requiredCode = """
+                  func swap(integers: inout [Int], firstIndex: Int, secondIndex: Int) {
+                      let temp = integers[firstIndex]
+                      integers[firstIndex] = integers[secondIndex]
+                      integers[secondIndex] = temp
+                  }
+                  """
+                response.append(line: requiredCode, to: .append)
+                
+                let idealSolution = """
+                  public static func selectionSort(integers: inout [Int]) {
+                      for targetIndex in 0 ..< data.count-1 {
+                          print(integers)
+                          var minimumIndex = targetIndex
+                          for findMinimumIndex in targetIndex+1 ..< data.count {
+                              if data[findMinimumIndex] < data[minimumIndex] {
+                                  minimumIndex = findMinimumIndex
+                              }
+                          }
+                          swap(data: &data, firstIndex: minimumIndex, secondIndex:targetIndex)
+                      }
+                      print(integers)
+                  }
+                  """
+                response.append(line: idealSolution, to: .idealSolution)
+
+                for index in 1 ... repeatCount {
+                    let integers = try Utility.generateRandomArrayOfInt(elementCount: Int.random(in: 10 ... 20),
+                                                                        elementLowerBound: lowerBound, elementUpperBound: upperBound)
+                    var sortedIntegers = integers 
+                    var expectedOutput = [String]()
+                    selectionSort(data: &sortedIntegers, expectedOutput: &expectedOutput)
+                    let arrayName = "integers_\(index)"
+
+                    // Append
+                    let append = """
+                      var \(arrayName) = \(integers)
+                      selectionSort(integers: &\(arrayName))
                       """
                     response.append(line: append, to: .append)
 
