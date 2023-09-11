@@ -485,16 +485,18 @@ struct Sorts {
                     let rightArray = try Utility.generateRandomArrayOfInt(elementCount: rightElementCount, elementLowerBound: lowerBound, elementUpperBound: upperBound).sorted()
 
                     var integers = leftArray + rightArray
-                    let middleBoundIndex = integers.count / 2
 
                     var expectedOutput = [String]()
-                    merge(data: &integers, leftLowerBoundIndex: 0, middleBoundIndex: middleBoundIndex, rightUpperBoundIndex: integers.count - 1, expectedOutput: &expectedOutput)
+                    let leftLowerBoundIndex = 0
+                    let middleBoundIndex = integers.count / 2
+                    let rightUpperBoundIndex = integers.count - 1
+                    merge(data: &integers, leftLowerBoundIndex: leftLowerBoundIndex, middleBoundIndex: middleBoundIndex, rightUpperBoundIndex: rightUpperBoundIndex, expectedOutput: &expectedOutput)
                     let arrayName = "integers_\(index)"
 
                     // Append
                     let append = """
                       var \(arrayName) = \(integers)
-                      merge(integers: &\(arrayName))
+                      merge(integers: &\(arrayName), leftLowerBoundIndex: \(leftLowerBoundIndex), middleBoundIndex: \(middleBoundIndex), rightUpperBoundIndex: \(rightUpperBoundIndex))
                       """
                     response.append(line: append, to: .append)
 
