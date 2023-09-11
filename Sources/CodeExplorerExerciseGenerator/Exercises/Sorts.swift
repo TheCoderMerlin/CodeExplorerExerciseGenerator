@@ -484,23 +484,26 @@ struct Sorts {
                     let leftArray = try Utility.generateRandomArrayOfInt(elementCount: leftElementCount, elementLowerBound: lowerBound, elementUpperBound: upperBound).sorted()
                     let rightArray = try Utility.generateRandomArrayOfInt(elementCount: rightElementCount, elementLowerBound: lowerBound, elementUpperBound: upperBound).sorted()
 
-                    var integers = leftArray + rightArray
+                    let integers = leftArray + rightArray
+                    var sortedIntegers = integers
 
                     var expectedOutput = [String]()
                     let leftLowerBoundIndex = 0
-                    let middleBoundIndex = integers.count / 2
-                    let rightUpperBoundIndex = integers.count - 1
-                    merge(data: &integers, leftLowerBoundIndex: leftLowerBoundIndex, middleBoundIndex: middleBoundIndex, rightUpperBoundIndex: rightUpperBoundIndex, expectedOutput: &expectedOutput)
+                    let rightUpperBoundIndex = sortedIntegers.count - 1
+                    let middleBoundIndex = (rightUpperBoundIndex - leftLowerBoundIndex) / 2
+                    merge(data: &sortedIntegers, leftLowerBoundIndex: leftLowerBoundIndex, middleBoundIndex: middleBoundIndex, rightUpperBoundIndex: rightUpperBoundIndex, expectedOutput: &expectedOutput)
                     let arrayName = "integers_\(index)"
 
                     // Append
                     let append = """
-                      var \(arrayName) = \(integers)
+                      var \(arrayName) = \(sortedIntegers)
+                      print(\(arrayName)
                       merge(integers: &\(arrayName), leftLowerBoundIndex: \(leftLowerBoundIndex), middleBoundIndex: \(middleBoundIndex), rightUpperBoundIndex: \(rightUpperBoundIndex))
                       """
                     response.append(line: append, to: .append)
 
                     // Expected output
+                    response.append(line: "\(integers.description)", to: .expectedOutput)
                     response.append(lines: expectedOutput, to: .expectedOutput)
                 }
 
