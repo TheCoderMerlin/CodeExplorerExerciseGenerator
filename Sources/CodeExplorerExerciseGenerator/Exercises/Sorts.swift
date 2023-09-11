@@ -497,7 +497,7 @@ struct Sorts {
                     // Append
                     let append = """
                       var \(arrayName) = \(sortedIntegers)
-                      print(\(arrayName)
+                      print(\(arrayName))
                       merge(integers: &\(arrayName), leftLowerBoundIndex: \(leftLowerBoundIndex), middleBoundIndex: \(middleBoundIndex), rightUpperBoundIndex: \(rightUpperBoundIndex))
                       """
                     response.append(line: append, to: .append)
