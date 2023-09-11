@@ -32,5 +32,6 @@ public enum Exercise {
     case bubbleSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case selectionSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case insertionSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
+    case merge(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case mergeSort(repeatCount: Int, lowerBound: Int, upperBound: Int)
 }
