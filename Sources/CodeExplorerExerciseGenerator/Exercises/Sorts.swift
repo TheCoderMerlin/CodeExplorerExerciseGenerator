@@ -496,14 +496,14 @@ struct Sorts {
 
                     // Append
                     let append = """
-                      var \(arrayName) = \(sortedIntegers)
+                      var \(arrayName) = \(integers)
                       print(\(arrayName))
                       merge(integers: &\(arrayName), leftLowerBoundIndex: \(leftLowerBoundIndex), middleBoundIndex: \(middleBoundIndex), rightUpperBoundIndex: \(rightUpperBoundIndex))
                       """
                     response.append(line: append, to: .append)
 
                     // Expected output
-                    response.append(line: "\(integers.description)", to: .expectedOutput)
+                    response.append(line: "\(integers)", to: .expectedOutput)
                     response.append(lines: expectedOutput, to: .expectedOutput)
                 }
 
