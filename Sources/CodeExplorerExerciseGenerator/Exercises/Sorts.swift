@@ -479,8 +479,8 @@ struct Sorts {
                 response.append(line: idealSolution, to: .idealSolution)
 
                 for index in 1 ... repeatCount {
-                    let leftElementCount = Int.random(in: 5 ... 10)
-                    let rightElementCount = leftElementCount + (Bool.random() ? 1 : 0)
+                    let rightElementCount = Int.random(in: 5 ... 10) 
+                    let leftElementCount = rightElementCount + (Bool.random() ? 1 : 0)
                     let leftArray = try Utility.generateRandomArrayOfInt(elementCount: leftElementCount, elementLowerBound: lowerBound, elementUpperBound: upperBound).sorted()
                     let rightArray = try Utility.generateRandomArrayOfInt(elementCount: rightElementCount, elementLowerBound: lowerBound, elementUpperBound: upperBound).sorted()
 
