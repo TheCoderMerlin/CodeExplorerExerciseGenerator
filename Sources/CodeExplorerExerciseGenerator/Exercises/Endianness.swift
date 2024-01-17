@@ -63,7 +63,7 @@ struct Endianness {
 
         static func layoutBytes(bytes: [String], endianness: Endianness) throws -> String {
             var string = ""
-            let firstAddress = Int.random(in: -0xF0F0 ... 0xF0F0)
+            let firstAddress = Int.random(in: 0x1000 ... 0xF0F0)
             for address in firstAddress ..< firstAddress + bytes.count {
                 let offset = address - firstAddress
                 let index = try endianness.index(byteCount: bytes.count, offset: offset)
