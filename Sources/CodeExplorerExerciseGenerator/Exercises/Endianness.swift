@@ -50,7 +50,7 @@ struct Endianness {
             }
 
             // Strip leading zeroes
-            while let _ = hexArray.first {
+            while hexArray.first == "00" {
                 hexArray.removeFirst()
             }
             // Ensure at least a single element
@@ -65,8 +65,11 @@ struct Endianness {
             var string = ""
             let firstAddress = Int.random(in: -0xF0F0 ... 0xF0F0)
             for address in firstAddress ..< firstAddress + bytes.count {
-                let offset = firstAddress - address 
-                let index = try firstAddress + endianness.index(byteCount: bytes.count, offset: offset)
+                let offset = address - firstAddress
+                let index = try endianness.index(byteCount: bytes.count, offset: offset)
+                guard (0 ..< bytes.count).contains(index) else {
+                    throw ExerciseGenerator.ExerciseGeneratorError.internalError(file: #filePath, line: #line, function: #function, message: "index '\(index)' out of bounds of byte array count '\(bytes.count)'")
+                }
                 let byte = bytes[index]
                 let hexAddress = String(format: "%04X", byte)
                 string.append("0x\(hexAddress): \(byte) ")
