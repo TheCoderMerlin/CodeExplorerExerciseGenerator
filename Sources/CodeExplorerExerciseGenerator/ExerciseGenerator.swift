@@ -16,6 +16,7 @@ public class ExerciseGenerator {
         case invalidExerciseType
         case invalidBoundsSpecified
         case invalidRepeatCountSpecified
+        case invalidByteCountSpecified
     }
     
 
@@ -44,6 +45,10 @@ public class ExerciseGenerator {
             response = try NumericProperties.IsOdd.generate(exercise: exercise)
         case .hasOppositeSigns(_, _, _):
             response = try NumericProperties.HasOppositeSigns.generate(exercise: exercise)
+
+        // Endianess
+        case .testEndianness(_, _):
+            response = try Endianness.TestEndianness.generate(exercise: exercise)
 
             
         // Primes

@@ -21,6 +21,9 @@ public enum Exercise {
     case isEven(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case isOdd(repeatCount: Int, lowerBound: Int, upperBound: Int)
     case hasOppositeSigns(repeatCount: Int, lowerBound: Int, upperBound: Int)
+
+    // Endianness
+    case testEndianness(repeatCount: Int, byteCount: Int)
     
     // Primes
     case isPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)
