@@ -71,7 +71,7 @@ struct Endianness {
                     throw ExerciseGenerator.ExerciseGeneratorError.internalError(file: #filePath, line: #line, function: #function, message: "index '\(index)' out of bounds of byte array count '\(bytes.count)'")
                 }
                 let byte = bytes[index]
-                let hexAddress = String(format: "%04X", byte)
+                let hexAddress = String(format: "%04X", address)
                 string.append("0x\(hexAddress): \(byte) ")
             }
 
@@ -89,7 +89,8 @@ struct Endianness {
                 let response = CodeExplorerExerciseGenerator.DynamicResponse()
                 var instructions = """
                   <ul>
-                  <li>For each question, consider the layout of the number in memory. Answer either "big" for big endian or "little" for little endian.</li>
+                  <li>For each question, consider the layout of the number in memory.</li>
+                  <li>Answer either "big" for big endian or "little" for little endian.</li>
                   <li>Case is significant.</li>
                   </ul>
                   """
@@ -98,7 +99,7 @@ struct Endianness {
                 for _ in 1 ... repeatCount {
                     let number = Int64.random(in: 0 ..< maxInt)
                     let hex = hexadecimalStringArray(of: number)
-                    let hexString = hex.map {$0 + " "}
+                    let hexString = hex.reduce("") {$0 + $1 + " "}
 
                     let endianness = Bool.random() ? Endianness.little : Endianness.big
                     let memory = try layoutBytes(bytes: hex, endianness: endianness)
