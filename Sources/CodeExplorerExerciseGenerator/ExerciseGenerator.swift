@@ -17,6 +17,8 @@ public class ExerciseGenerator {
         case invalidBoundsSpecified
         case invalidRepeatCountSpecified
         case invalidByteCountSpecified
+
+        case internalError(file: String, line: Int, function: String, message: String)
     }
     
 
