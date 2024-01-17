@@ -27,11 +27,6 @@ public class DynamicResponse {
         targetFilesDictionary[targetPathname.rawValue]!.append(lineAndNewline)
     }
 
-    // public func append(lines: String, to targetPathname: TargetPathname) {
-    //     let linesAndNewline = lines + "\n"
-    //     targetFilesDictionary[targetPathname.rawValue]!.append(linesAndNewline)
-    // }
-
     public func append(lines: [String], to targetPathname: TargetPathname) {
         let linesAndNewline = lines.joined(separator: "\n") + "\n"
         targetFilesDictionary[targetPathname.rawValue]!.append(linesAndNewline)

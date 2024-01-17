@@ -36,6 +36,20 @@ struct Endianness {
             }
         }
 
+        enum AddressDirection {
+            case up
+            case down
+
+            func getStride(from firstAddress: Int, through lastAddress: Int) -> StrideThrough<Int> {
+                switch self {
+                case .up:
+                    return stride(from: firstAddress, through: lastAddress, by: 1)
+                case .down:
+                    return stride(from: lastAddress, through: firstAddress, by: -1)
+                }
+            }
+        }
+
         // Helper functions
         static func hexadecimalStringArray(of value: Int64) -> [String] {
             var hexArray: [String] = []
@@ -61,10 +75,12 @@ struct Endianness {
             return hexArray
         }
 
-        static func layoutBytes(bytes: [String], endianness: Endianness) throws -> String {
+        static func layoutBytes(bytes: [String], endianness: Endianness, addressDirection: AddressDirection) throws -> String {
             var string = ""
             let firstAddress = Int.random(in: 0x1000 ... 0xF0F0)
-            for address in firstAddress ..< firstAddress + bytes.count {
+            let lastAddress = firstAddress + bytes.count - 1
+            let stride = addressDirection.getStride(from: firstAddress, through: lastAddress)
+            for address in stride {
                 let offset = address - firstAddress
                 let index = try endianness.index(byteCount: bytes.count, offset: offset)
                 guard (0 ..< bytes.count).contains(index) else {
@@ -102,7 +118,8 @@ struct Endianness {
                     let hexString = hex.reduce("") {$0 + $1 + " "}
 
                     let endianness = Bool.random() ? Endianness.little : Endianness.big
-                    let memory = try layoutBytes(bytes: hex, endianness: endianness)
+                    let addressDirection = Bool.random() ? AddressDirection.up : AddressDirection.down 
+                    let memory = try layoutBytes(bytes: hex, endianness: endianness, addressDirection: addressDirection)
                     
                     let question = "Given the number \(hexString) in memory as \(memory)"
                     instructions.append("<li>\(question)</li>")
