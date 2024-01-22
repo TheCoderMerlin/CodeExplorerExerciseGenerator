@@ -24,6 +24,9 @@ public enum Exercise {
 
     // Endianness
     case testEndianness(repeatCount: Int, byteCount: Int)
+
+    // Complements
+    case testComplementSingleBase(repeatCount: Int, base: Int, isDiminished: Bool, complementName: String, lowerBound: Int, upperBound: Int) 
     
     // Primes
     case isPrime(repeatCount: Int, lowerBound: Int, upperBound: Int)

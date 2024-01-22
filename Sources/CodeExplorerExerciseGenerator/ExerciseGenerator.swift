@@ -13,10 +13,12 @@
 
 public class ExerciseGenerator {
     enum ExerciseGeneratorError: Error {
-        case invalidExerciseType
+        case invalidBase
         case invalidBoundsSpecified
-        case invalidRepeatCountSpecified
         case invalidByteCountSpecified
+        case invalidExerciseType
+        case invalidRepeatCountSpecified
+        case invalidNumber(message: String)
 
         case internalError(file: String, line: Int, function: String, message: String)
     }
@@ -52,6 +54,9 @@ public class ExerciseGenerator {
         case .testEndianness(_, _):
             response = try Endianness.TestEndianness.generate(exercise: exercise)
 
+        // Complements 
+        case .testComplementSingleBase(_, _, _, _, _, _):
+            response = try Complements.TestSingleBase.generate(exercise: exercise)
             
         // Primes
         case .isPrime(_, _, _):
