@@ -85,6 +85,9 @@ struct Complements {
                     case 8:
                         numberInBase = String(number, radix: base).charactersInSets(of: 3, separatedBy: " ", paddedBy: "0")
                         complementInBase = String(complement, radix: base).charactersInSets(of: 3, separatedBy: " ", paddedBy: "0")
+                    case 10:
+                        numberInBase = String(number, radix: base).charactersInSets(of: 3, separatedBy: ",", paddedBy: " ")
+                        complementInBase = String(complement, radix: base).charactersInSets(of: 3, separatedBy: ",", paddedBy: " ")
                     case 16:
                         numberInBase = String(number, radix: base).charactersInSets(of: 2, separatedBy: " ", paddedBy: "0")
                         complementInBase = String(complement, radix: base).charactersInSets(of: 2, separatedBy: " ", paddedBy: "0")
